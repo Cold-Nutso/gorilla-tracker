@@ -1,0 +1,28 @@
+{
+  "name": "http-api-assignment-ii",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests complete\"",
+    "nodemon": "nodemon -e js,html,css --watch ./src ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cold-Nutso/http-api-assignment-ii.git"
+  },
+  "author": "Vitaly Pronin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cold-Nutso/http-api-assignment-ii/issues"
+  },
+  "homepage": "https://github.com/Cold-Nutso/http-api-assignment-ii#readme",
+  "devDependencies": {
+    "eslint": "^8.23.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.20"
+  }
+}
