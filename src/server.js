@@ -62,19 +62,12 @@ const onRequest = (request, response) => {
   // Check if no method
   if (!urlStruct[request.method]) {
     return urlStruct.HEAD.notFound(request, response);
+  } if (request.method === 'POST') {
+    return parseBody(request, response, urlStruct[request.method][parsedUrl.pathname]);
+  } if (urlStruct[request.method][parsedUrl.pathname]) {
+    return urlStruct[request.method][parsedUrl.pathname](request, response);
   }
-  // Check if POST request
-  else if (request.method === 'POST') {
-    parseBody(request, response, urlStruct[request.method][parsedUrl.pathname]);
-  }
-  // Handle GET or HEAD
-  else if (urlStruct[request.method][parsedUrl.pathname]) {
-    urlStruct[request.method][parsedUrl.pathname](request, response);
-  } 
-  // Otherwise, 404
-  else {
-    urlStruct[request.method].notFound(request, response);
-  }
+  return urlStruct[request.method].notFound(request, response);
 };
 
 // Start server

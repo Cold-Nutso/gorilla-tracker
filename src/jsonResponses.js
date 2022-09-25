@@ -8,6 +8,9 @@ const respondJSON = (request, response, status, object) => {
     'Content-Type': 'application/json',
   };
 
+  // Log the object
+  console.log(object);
+
   // Response with json object
   response.writeHead(status, headers);
   response.write(JSON.stringify(object));
@@ -40,23 +43,7 @@ const getUsers = (request, response) => {
 // Get meta info of user object
 const getUsersMeta = (request, response) => {
   // Return status code and meta data
-  return respondJSONMeta(request, response, 200);
-};
-
-// Update user object
-const updateUser = (request, response) => {
-  // Change to make to user
-  // This is just a dummy object for example
-  const newUser = {
-    createdAt: Date.now(),
-  };
-
-  // Modifying our dummy object
-  // Just indexing by time for now
-  users[newUser.createdAt] = newUser;
-
-  // Return status code and object
-  return respondJSON(request, response, 201, newUser);
+  respondJSONMeta(request, response, 200);
 };
 
 // Not found (for GET requests)

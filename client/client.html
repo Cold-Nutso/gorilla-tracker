@@ -18,6 +18,9 @@
         case 201:
           content.innerHTML = `<b>Created</b>`;
           break;
+        case 204:
+          content.innerHTML = `<b>Updated (No Content)</b>`;
+          break;
         case 400: 
           content.innerHTML = `<b>Bad Request</b>`;
           break;
@@ -37,18 +40,6 @@
         // Stringify and display it
         let jsonString = JSON.stringify(obj);
         content.innerHTML += `<p>${jsonString}</p>`;
-      } else {
-        // Generic meta response
-        content.innerHTML += '<p>Meta Data Received</p>';
-
-                      //Parse the response to json. This works because we know the server always
-      //sends back json. Await because .json() is an async function.
-      //let obj = await response.json();
-      
-      //If we have a message, display it.
-      //if(obj.message){
-      //  content.innerHTML += `<p>${obj.message}</p>`;
-      //}
       }
     };
 
@@ -64,14 +55,17 @@
       const formData = `name=${nameField.value}&age=${ageField.value}`;
 
       // Make fetch request and await response
-      let response = await fetch(nameAction, {
-        method: nameMethod,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json',
-        },
-        body: formData,
-      });
+      let response = await fetch(
+        nameAction, 
+        {
+          method: nameMethod,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+          },
+          body: formData
+        }
+      );
 
       // Handle the response
       handleResponse(response, nameMethod === 'post');
