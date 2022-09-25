@@ -5,7 +5,81 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    // Handle response asynchronously
+    const handleResponse = async (response, parseResponse) => {
+      // Grab content elem
+      const content = document.querySelector('#content');
 
+      // Write something based on status
+      switch(response.status) {
+        case 200: 
+          content.innerHTML = `<b>Success</b>`;
+          break;
+        case 201:
+          content.innerHTML = `<b>Created</b>`;
+          break;
+        case 400: 
+          content.innerHTML = `<b>Bad Request</b>`;
+          break;
+        case 404:
+          content.innerHTML = `<b>Resource Not Found</b>`;
+          break;
+        default: 
+          content.innerHTML = `Error code not implemented by client.`;
+          break;
+      }
+
+      // If this is a GET request
+      if (parseResponse) {
+        // Parse to json asynchronously
+        let obj = await response.json();
+        
+        // Stringify and display it
+        let jsonString = JSON.stringify(obj);
+        content.innerHTML += `<p>${jsonString}</p>`;
+      } else {
+        // Generic meta response
+        content.innerHTML += '<p>Meta Data Received</p>';
+      }
+    };
+
+    // Send request asynchronously
+    const requestUpdate = async (userForm) => {
+      
+      // Grab URL and method from form elems
+      const url = userForm.querySelector('#urlField').value;
+      const method = userForm.querySelector('#methodSelect').value;
+      
+      // Await fetch response
+      // Use URL and method to attach headers
+      let response = await fetch(url, {
+        method,
+        headers: {
+            'Accept': 'application/json'
+        },
+      });
+
+      // Handle the response
+      handleResponse(response, method === 'get');
+    };
+
+    const init = () => {
+      // Grab userForm elem
+      const userForm = document.querySelector('#userForm');
+      
+      // Handle our request
+      // Also cancels built-in HTML form action
+      const getUsers = (e) => {
+        e.preventDefault();
+        requestUpdate(userForm);
+        return false;
+      }
+      
+      // Add event listener
+      userForm.addEventListener('submit', getUsers);
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>
