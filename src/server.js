@@ -1,5 +1,6 @@
 const http = require('http'); // HTTP module
 const url = require('url'); // URL module
+const query = require('querystring'); // Custom files
 const htmlHandler = require('./htmlResponses.js');
 const jsonHandler = require('./jsonResponses.js');
 
@@ -11,29 +12,67 @@ const urlStruct = {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
     '/getUsers': jsonHandler.getUsers,
-    '/updateUser': jsonHandler.updateUser,
     notFound: jsonHandler.notFound,
   },
   HEAD: {
     '/getUsers': jsonHandler.getUsersMeta,
     notFound: jsonHandler.notFoundMeta,
   },
+  POST: {
+    '/addUser': jsonHandler.addUser,
+  },
 };
 
-// Handle request
+// Recompile body of request and call handler
+const parseBody = (request, response, handler) => {
+  // Body array for storing pieces
+  const body = [];
+
+  // Event handlers for responses
+
+  // Bad request error
+  request.on('error', (err) => {
+    console.dir(err);
+    response.statusCode = 400;
+    response.end();
+  });
+
+  // Add data chunk to array
+  request.on('data', (chunk) => {
+    body.push(chunk);
+  });
+
+  // Finished request
+  request.on('end', () => {
+    // Turn array into a single entity
+    const bodyString = Buffer.concat(body).toString();
+    // Parse into string
+    const bodyParams = query.parse(bodyString);
+
+    // Call handler
+    handler(request, response, bodyParams);
+  });
+};
+
+// Handle requests
 const onRequest = (request, response) => {
   // Parse info from URL
   const parsedUrl = url.parse(request.url);
 
-  // Check if not a GET or HEAD request
+  // Check if no method
   if (!urlStruct[request.method]) {
     return urlStruct.HEAD.notFound(request, response);
   }
-
-  // Call the right response
-  if (urlStruct[request.method][parsedUrl.pathname]) {
+  // Check if POST request
+  else if (request.method === 'POST') {
+    parseBody(request, response, urlStruct[request.method][parsedUrl.pathname]);
+  }
+  // Handle GET or HEAD
+  else if (urlStruct[request.method][parsedUrl.pathname]) {
     urlStruct[request.method][parsedUrl.pathname](request, response);
-  } else {
+  } 
+  // Otherwise, 404
+  else {
     urlStruct[request.method].notFound(request, response);
   }
 };

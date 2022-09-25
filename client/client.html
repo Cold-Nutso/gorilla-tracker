@@ -40,12 +40,45 @@
       } else {
         // Generic meta response
         content.innerHTML += '<p>Meta Data Received</p>';
+
+                      //Parse the response to json. This works because we know the server always
+      //sends back json. Await because .json() is an async function.
+      //let obj = await response.json();
+      
+      //If we have a message, display it.
+      //if(obj.message){
+      //  content.innerHTML += `<p>${obj.message}</p>`;
+      //}
       }
     };
 
-    // Send request asynchronously
+    // Use fetch to send POST request asynchronously
+    const sendPost = async (nameForm) => {
+      // Grab info from nameForm elems
+      const nameAction = nameForm.getAttribute('action');
+      const nameMethod = nameForm.getAttribute('method');
+      const nameField = nameForm.querySelector('#nameField');
+      const ageField = nameForm.querySelector('#ageField');
+
+      // Build data string in FORM-URLENCODED
+      const formData = `name=${nameField.value}&age=${ageField.value}`;
+
+      // Make fetch request and await response
+      let response = await fetch(nameAction, {
+        method: nameMethod,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+        },
+        body: formData,
+      });
+
+      // Handle the response
+      handleResponse(response, nameMethod === 'post');
+    };
+
+    // Send GET request asynchronously
     const requestUpdate = async (userForm) => {
-      
       // Grab URL and method from form elems
       const url = userForm.querySelector('#urlField').value;
       const method = userForm.querySelector('#methodSelect').value;
@@ -64,18 +97,28 @@
     };
 
     const init = () => {
-      // Grab userForm elem
+      // Grab nameForm and userForm elem
+      const nameForm = document.querySelector('#nameForm');
       const userForm = document.querySelector('#userForm');
-      
-      // Handle our request
-      // Also cancels built-in HTML form action
+
+      // Create addUser function
+      // Also cancel built-in HTML form action
+      const addUser = (e) => {
+        e.preventDefault();
+        sendPost(nameForm);
+        return false;
+      }
+
+      // Handle getUSer request
+      // Also cancel built-in HTML form action
       const getUsers = (e) => {
         e.preventDefault();
         requestUpdate(userForm);
         return false;
       }
       
-      // Add event listener
+      // Add event listeners
+      nameForm.addEventListener('submit', addUser);
       userForm.addEventListener('submit', getUsers);
     };
 

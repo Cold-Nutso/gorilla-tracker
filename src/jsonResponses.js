@@ -77,10 +77,46 @@ const notFoundMeta = (request, response) => {
   respondJSONMeta(request, response, 404);
 };
 
+// Add a user from a POST body
+const addUser = (request, response, body) => {
+  // Default message
+  const responseJSON = {
+    message: 'Name and age are both required.',
+  };
+
+  // Check for both fields
+  if (!body.name || !body.age) {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
+
+  // Default status code to 204
+  let responseCode = 204;
+
+  // If user doesn't exist yet
+  if (!users[body.name]) {
+    responseCode = 201;
+    users[body.name] = {};
+  }
+
+  // Add/update fields for user name
+  users[body.name].name = body.name;
+  users[body.name].age = body.age;
+
+  // If response is created, set message and send response
+  if (responseCode === 201) {
+    responseJSON.message = 'Created Successfully';
+    return respondJSON(request, response, responseCode, responseJSON);
+  }
+
+  // Else, send meta data with 204
+  return respondJSONMeta(request, response, responseCode);
+};
+
 module.exports = {
   getUsers,
   getUsersMeta,
-  updateUser,
   notFound,
   notFoundMeta,
+  addUser,
 };
