@@ -46,16 +46,25 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked {
-  /* Add if not using autoprefixer */
-  -webkit-appearance: none;
-  appearance: none;
-  /* For iOS < 15 to remove gradient background */
-  background-color: #fff;
-  /* Not removed via appearance */
-  margin: 0;
-
-  border: 0.15em solid black;
+  outline: 5px solid black;
   outline-offset: 5px;
+}
+
+input[type="radio"]:hover,
+#sexField label {
+  cursor: pointer;
+}
+
+#sexField input[type="radio"] {
+  background-color: none;
+}
+#sexField label {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  position: relative;
+  left: -35px;
+  top: -20px;
 }
 
 #fur0 { background-color: #141414; }
