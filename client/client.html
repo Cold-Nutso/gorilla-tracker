@@ -5,6 +5,16 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    // Get value from a set of radio buttons
+    const grabChkdRadVal = (elem) => {
+      const options = elem.querySelectorAll('input');
+      for (let rad of options) {
+        if (rad.checked) {
+          return rad.value;
+        }
+      }
+    };
+
     // Handle response asynchronously
     const handleResponse = async (response, parseResponse) => {
       // Grab content elem
@@ -48,25 +58,18 @@
       // Grab info from entryForm elems
       const entryAction = entryForm.getAttribute('action');
       const entryMethod = entryForm.getAttribute('method');
-      const skinField = entryForm.querySelector('#skinField');
-      const furField = entryForm.querySelector('#furField');
-      const eyesField = entryForm.querySelector('#eyesField');
       const nameField = entryForm.querySelector('#nameField');
-      const persField = entryForm.querySelector('#persField');
+      const bioField = entryForm.querySelector('#bioField');
 
-      // Get sex value
-      const sexField = entryForm.querySelector('#sexField');
-      const sexOpts = sexField.querySelectorAll('input');
-      let sexVal = '?';
-      for (let rad of sexOpts) {
-        if (rad.checked) {
-          sexVal = rad.value;
-          break;
-        }
-      }
+      // Construct string for body values
+      let looksVal = "";
+      looksVal += grabChkdRadVal(entryForm.querySelector('#skinField'));
+      looksVal += grabChkdRadVal(entryForm.querySelector('#furField'));
+      looksVal += grabChkdRadVal(entryForm.querySelector('#eyesField'));
+      looksVal += grabChkdRadVal(entryForm.querySelector('#sexField'));
 
       // Build data string in FORM-URLENCODED
-      const formData = `skin=${skinField.value}&fur=${furField.value}&eyes=${eyesField.value}&sex=${sexVal}&name=${nameField.value}&pers=${persField.value}`;
+      const formData = `looks=${looksVal}&name=${nameField.value}&bio=${bioField.value}`;
 
       // Make fetch request and await response
       let response = await fetch(
@@ -135,35 +138,77 @@
 </head>
 <body>
   <section id="top">
-    <h3>POST Status Code Tests</h3>
+    <h3>Record your sighting!</h3>
     <form id="entryForm" action="/addApe" method="post">
-      <label for="skin">Skin: </label>
-      <input id="skinField" type="text" name="skin" />
-      <label for="fur">Fur: </label>
-      <input id="furField" type="text" name="fur" />
-      <label for="eyes">Eyes: </label>
-      <input id="eyesField" type="text" name="eyes" />
+
+      <div id="skinField">
+        <label for="skinField">Skin: </label>
+
+        <input type="radio" id="skin0" name="skinOpts" value='0'>
+        <label for="skin0">Black</label>
+
+        <input type="radio" id="skin1" name="skinOpts" value='1'>
+        <label for="skin1">Dark Gray</label>
+
+        <input type="radio" id="skin2" name="skinOpts" value='2' checked="true">
+        <label for="skin2">Light Gray</label>
+
+        <input type="radio" id="skin3" name="skinOpts" value='3'>
+        <label for="skin3">Pink</label>
+      </div>
+
+      <div id="furField">
+        <label for="furField">Fur Color: </label>
+
+        <input type="radio" id="fur0" name="furOpts" value='0' checked="true">
+        <label for="fur0">Black</label>
+
+        <input type="radio" id="fur1" name="furOpts" value='1'>
+        <label for="fur1">Dark Gray</label>
+
+        <input type="radio" id="fur2" name="furOpts" value='2'>
+        <label for="fur2">Light Gray</label>
+
+        <input type="radio" id="fur3" name="furOpts" value='3'>
+        <label for="fur3">White</label>
+      </div>
+
+      <div id="eyesField">
+        <label for="eyesField">Eyes: </label>
+
+        <input type="radio" id="eyes0" name="eyesOpts" value='0' checked="true">
+        <label for="eyes0">Wide</label>
+
+        <input type="radio" id="eyes1" name="eyesOpts" value='1'>
+        <label for="eyes1">Sleepy</label>
+
+        <input type="radio" id="eyes2" name="eyesOpts" value='2'>
+        <label for="eyes2">Angry</label>
+
+        <input type="radio" id="eyes3" name="eyesOpts" value='3'>
+        <label for="eyes3">Concerned</label>
+      </div>
 
       <div id="sexField">
         <label for="sexField">Sex: </label>
 
-        <input type="radio" id="male" name="sexOpts" value='M'>
-        <label for="male">M</label>
+        <input type="radio" id="sex1" name="sexOpts" value='M'>
+        <label for="sex1">M</label>
 
-        <input type="radio" id="female" name="sexOpts" value='F'>
-        <label for="female">F</label>
+        <input type="radio" id="sex2" name="sexOpts" value='F'>
+        <label for="sex2">F</label>
 
-        <input type="radio" id="other" name="sexOpts" value='?' checked="true">
-        <label for="other">?</label>
+        <input type="radio" id="sex3" name="sexOpts" value='?' checked="true">
+        <label for="sex3">?</label>
       </div>
 
       <input type="button" class="randBtn" id="randName" value="Gen" />
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
 
-      <input type="button" class="randBtn" id="randPers" value="Gen" />
-      <label for="personality">Personality: </label>
-      <input id="persField" type="text" name="personality" />
+      <input type="button" class="randBtn" id="randBio" value="Gen" />
+      <label for="bio">Personality: </label>
+      <input id="bioField" type="text" name="bio" />
 
       <br>
       <input type="submit" value="Post Entry" />

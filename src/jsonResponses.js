@@ -87,12 +87,9 @@ const addApe = (request, response, body) => {
   }
 
   // Add/update fields for user name
-  users[body.name].skin = body.skin;
-  users[body.name].fur = body.fur;
-  users[body.name].eyes = body.eyes;
+  users[body.name].looks = body.looks;
   users[body.name].name = body.name;
-  users[body.name].sex = body.sex;
-  users[body.name].pers = body.pers;
+  users[body.name].bio = body.bio;
 
   // If response is created, set message and send response
   if (responseCode === 201) {
