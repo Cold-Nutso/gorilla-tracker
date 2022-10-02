@@ -5,6 +5,90 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    // ----------------------------
+    // - - - - - APE DATA - - - - -
+    // ----------------------------
+
+    const preCon = ["b", "f", "g", "h", "j", "k", "m", "p", "r", "t", "w", "y", "z", "ch"];
+    const vowel = ["a", "e", "i", "o", "u"];
+    const sufCon = ["h", "l", "m", "n"];
+
+    const bioA = ["Never ", "A little ", "A bit ", "Partially ", "Somewhat ", "Kind of ", "Sometimes ", "Occasionally ", "Frequently ", "Always ", "Permanently ", "Eternally ", "Tends to be ", "Extremely ", "Strangely ", "Oddly ", "Weirdly "];
+    const bioB = ["friendly", "hungry", "angry", "cheerful", "curious", "annoyed", "chatty", "stoic", "intense", "excited", "jolly", "goofy", "weird", "creative"];
+
+
+
+    // ---------------------------------
+    // - - - - - APE FUNCTIONS - - - - -
+    // ---------------------------------
+
+    // Gets a random element from an array
+    const randElem = (array) => {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    // Generates a random syllable
+    const genSyllable = () => {
+      // Declare empty string
+      let syllable = "";
+
+      // 10% chance to NOT have a beginning consonant
+      if (Math.random() < .9) {
+        syllable += randElem(preCon);
+      }
+
+      // Always have a vowel
+      syllable += randElem(vowel);
+
+      // 60% chance to NOT have an ending consonant
+      if (Math.random() < .4) {
+        syllable += randElem(sufCon);
+      }
+
+      // Return generated string
+      return syllable;
+    };
+
+    // Generates a random name
+    const genName = () => {
+      // Declare some variables
+      let name = "";
+      let goodToGo = false;
+
+      // Run generation loop
+      while (!goodToGo) {
+        // Declare name with two random syllables
+        name = genSyllable() + genSyllable();
+
+        // 20% chance to add a vowel at the beginning
+        if (Math.random() < .2) {
+          name = randElem(vowel) + name;
+        }
+            
+        // Check for bad words
+        if (name != "rape" && name != "anal") {
+          // Capitalize the first char
+          name = name.charAt(0).toUpperCase() + name.slice(1);
+
+          goodToGo = true;
+        }   
+      }
+    
+      // Return generated name
+      return name;
+    };
+
+    // Generates a random bio
+    const genBio = () => {
+      return randElem(bioA) + randElem(bioB) + ".";
+    };
+
+
+
+    // ----------------------------------
+    // - - - - - FORM FUNCTIONS - - - - -
+    // ----------------------------------
+
     // Get value from a set of radio buttons
     const grabChkdRadVal = (elem) => {
       const options = elem.querySelectorAll('input');
@@ -67,6 +151,14 @@
       looksVal += grabChkdRadVal(entryForm.querySelector('#furField'));
       looksVal += grabChkdRadVal(entryForm.querySelector('#eyesField'));
       looksVal += grabChkdRadVal(entryForm.querySelector('#sexField'));
+
+      // Generate name and bio if necessary
+      if (nameField.value === "") {
+        nameField.value = genName();
+      }
+      if (bioField.value === "") {
+        bioField.value = genBio();
+      }
 
       // Build data string in FORM-URLENCODED
       const formData = `looks=${looksVal}&name=${nameField.value}&bio=${bioField.value}`;
@@ -131,6 +223,20 @@
       // Add event listeners
       entryForm.addEventListener('submit', addApe);
       userForm.addEventListener('submit', getUsers);
+
+      // Grab elems
+      const nameBtn = entryForm.querySelector('#randName');
+      const bioBtn = entryForm.querySelector('#randBio');
+      const nameField = entryForm.querySelector('#nameField');
+      const bioField = entryForm.querySelector('#bioField');
+
+      // Add event listeners
+      nameBtn.addEventListener('click', () => {
+        nameField.value = genName();
+      });
+      bioBtn.addEventListener('click', () => {
+        bioField.value = genBio();
+      });
     };
 
     window.onload = init;
@@ -145,32 +251,24 @@
         <label for="skinField">Skin: </label>
 
         <input type="radio" id="skin0" name="skinOpts" value='0'>
-        <label for="skin0">Black</label>
 
         <input type="radio" id="skin1" name="skinOpts" value='1'>
-        <label for="skin1">Dark Gray</label>
 
         <input type="radio" id="skin2" name="skinOpts" value='2' checked="true">
-        <label for="skin2">Light Gray</label>
 
         <input type="radio" id="skin3" name="skinOpts" value='3'>
-        <label for="skin3">Pink</label>
       </div>
 
       <div id="furField">
         <label for="furField">Fur Color: </label>
 
         <input type="radio" id="fur0" name="furOpts" value='0' checked="true">
-        <label for="fur0">Black</label>
 
         <input type="radio" id="fur1" name="furOpts" value='1'>
-        <label for="fur1">Dark Gray</label>
 
         <input type="radio" id="fur2" name="furOpts" value='2'>
-        <label for="fur2">Light Gray</label>
 
         <input type="radio" id="fur3" name="furOpts" value='3'>
-        <label for="fur3">White</label>
       </div>
 
       <div id="eyesField">
@@ -205,6 +303,7 @@
       <input type="button" class="randBtn" id="randName" value="Gen" />
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
+      <br>
 
       <input type="button" class="randBtn" id="randBio" value="Gen" />
       <label for="bio">Personality: </label>

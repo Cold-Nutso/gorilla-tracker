@@ -19,3 +19,51 @@ html, body {
   font-size: 2em;
   text-align: center;
 }
+
+
+/* --------------------------------- */
+/* - - - - - RADIO BUTTONS - - - - - */
+/* --------------------------------- */
+
+/* Tips from this link */
+/* https://moderncss.dev/pure-css-custom-styled-radio-buttons/ */
+
+
+input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  border: none;
+  border-radius: 50%;
+}
+
+input[type="radio"]:checked {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+
+  border: 0.15em solid black;
+  outline-offset: 5px;
+}
+
+#fur0 { background-color: #141414; }
+#fur1 { background-color: #262422; }
+#fur2 { background-color: #403c39; }
+#fur3 { background-color: #e3d8d3; }
+
+#skin0 { background-color: #2b2b2a; }
+#skin1 { background-color: #454443; }
+#skin2 { background-color: #615b55; }
+#skin3 { background-color: #e0c1af; }
