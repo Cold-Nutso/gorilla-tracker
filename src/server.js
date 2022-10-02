@@ -19,7 +19,7 @@ const urlStruct = {
     notFound: jsonHandler.notFoundMeta,
   },
   POST: {
-    '/addUser': jsonHandler.addUser,
+    '/addApe': jsonHandler.addApe,
   },
 };
 

@@ -65,14 +65,14 @@ const notFoundMeta = (request, response) => {
 };
 
 // Add a user from a POST body
-const addUser = (request, response, body) => {
+const addApe = (request, response, body) => {
   // Default message
   const responseJSON = {
-    message: 'Name and age are both required.',
+    message: 'Must have a name parameter.',
   };
 
   // Check for both fields
-  if (!body.name || !body.age) {
+  if (!body.name) {
     responseJSON.id = 'missingParams';
     return respondJSON(request, response, 400, responseJSON);
   }
@@ -87,8 +87,12 @@ const addUser = (request, response, body) => {
   }
 
   // Add/update fields for user name
+  users[body.name].skin = body.skin;
+  users[body.name].fur = body.fur;
+  users[body.name].eyes = body.eyes;
   users[body.name].name = body.name;
-  users[body.name].age = body.age;
+  users[body.name].sex = body.sex;
+  users[body.name].pers = body.pers;
 
   // If response is created, set message and send response
   if (responseCode === 201) {
@@ -105,5 +109,5 @@ module.exports = {
   getUsersMeta,
   notFound,
   notFoundMeta,
-  addUser,
+  addApe,
 };

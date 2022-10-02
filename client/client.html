@@ -44,21 +44,35 @@
     };
 
     // Use fetch to send POST request asynchronously
-    const sendPost = async (nameForm) => {
-      // Grab info from nameForm elems
-      const nameAction = nameForm.getAttribute('action');
-      const nameMethod = nameForm.getAttribute('method');
-      const nameField = nameForm.querySelector('#nameField');
-      const ageField = nameForm.querySelector('#ageField');
+    const sendPost = async (entryForm) => {
+      // Grab info from entryForm elems
+      const entryAction = entryForm.getAttribute('action');
+      const entryMethod = entryForm.getAttribute('method');
+      const skinField = entryForm.querySelector('#skinField');
+      const furField = entryForm.querySelector('#furField');
+      const eyesField = entryForm.querySelector('#eyesField');
+      const nameField = entryForm.querySelector('#nameField');
+      const persField = entryForm.querySelector('#persField');
+
+      // Get sex value
+      const sexField = entryForm.querySelector('#sexField');
+      const sexOpts = sexField.querySelectorAll('input');
+      let sexVal = '?';
+      for (let rad of sexOpts) {
+        if (rad.checked) {
+          sexVal = rad.value;
+          break;
+        }
+      }
 
       // Build data string in FORM-URLENCODED
-      const formData = `name=${nameField.value}&age=${ageField.value}`;
+      const formData = `skin=${skinField.value}&fur=${furField.value}&eyes=${eyesField.value}&sex=${sexVal}&name=${nameField.value}&pers=${persField.value}`;
 
       // Make fetch request and await response
       let response = await fetch(
-        nameAction, 
+        entryAction, 
         {
-          method: nameMethod,
+          method: entryMethod,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
@@ -68,7 +82,7 @@
       );
 
       // Handle the response
-      handleResponse(response, nameMethod === 'post');
+      handleResponse(response, entryMethod === 'post');
     };
 
     // Send GET request asynchronously
@@ -91,15 +105,15 @@
     };
 
     const init = () => {
-      // Grab nameForm and userForm elem
-      const nameForm = document.querySelector('#nameForm');
+      // Grab entryForm and userForm elem
+      const entryForm = document.querySelector('#entryForm');
       const userForm = document.querySelector('#userForm');
 
-      // Create addUser function
+      // Create addApe function
       // Also cancel built-in HTML form action
-      const addUser = (e) => {
+      const addApe = (e) => {
         e.preventDefault();
-        sendPost(nameForm);
+        sendPost(entryForm);
         return false;
       }
 
@@ -112,7 +126,7 @@
       }
       
       // Add event listeners
-      nameForm.addEventListener('submit', addUser);
+      entryForm.addEventListener('submit', addApe);
       userForm.addEventListener('submit', getUsers);
     };
 
@@ -122,7 +136,7 @@
 <body>
   <section id="top">
     <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
+    <form id="entryForm" action="/addApe" method="post">
       <label for="skin">Skin: </label>
       <input id="skinField" type="text" name="skin" />
       <label for="fur">Fur: </label>
@@ -130,22 +144,26 @@
       <label for="eyes">Eyes: </label>
       <input id="eyesField" type="text" name="eyes" />
 
-      <div id="sex">
-        <label for="sex">Sex: </label>
-        <input type="radio" id="male" name="sexInput" value='M'>
+      <div id="sexField">
+        <label for="sexField">Sex: </label>
+
+        <input type="radio" id="male" name="sexOpts" value='M'>
         <label for="male">M</label>
 
-        <input type="radio" id="female" name="sexInput" value='F'>
+        <input type="radio" id="female" name="sexOpts" value='F'>
         <label for="female">F</label>
 
-        <input type="radio" id="other" name="sexInput" value='?'>
+        <input type="radio" id="other" name="sexOpts" value='?' checked="true">
         <label for="other">?</label>
       </div>
 
+      <input type="button" class="randBtn" id="randName" value="Gen" />
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
+
+      <input type="button" class="randBtn" id="randPers" value="Gen" />
       <label for="personality">Personality: </label>
-      <input id="personalityField" type="text" name="personality" />
+      <input id="persField" type="text" name="personality" />
 
       <br>
       <input type="submit" value="Post Entry" />
