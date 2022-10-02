@@ -123,12 +123,35 @@
   <section id="top">
     <h3>POST Status Code Tests</h3>
     <form id="nameForm" action="/addUser" method="post">
+      <label for="skin">Skin: </label>
+      <input id="skinField" type="text" name="skin" />
+      <label for="fur">Fur: </label>
+      <input id="furField" type="text" name="fur" />
+      <label for="eyes">Eyes: </label>
+      <input id="eyesField" type="text" name="eyes" />
+
+      <div id="sex">
+        <label for="sex">Sex: </label>
+        <input type="radio" id="male" name="sexInput" value='M'>
+        <label for="male">M</label>
+
+        <input type="radio" id="female" name="sexInput" value='F'>
+        <label for="female">F</label>
+
+        <input type="radio" id="other" name="sexInput" value='?'>
+        <label for="other">?</label>
+      </div>
+
       <label for="name">Name: </label>
       <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
-      <input type="submit" value="Add User" />
+      <label for="personality">Personality: </label>
+      <input id="personalityField" type="text" name="personality" />
+
+      <br>
+      <input type="submit" value="Post Entry" />
     </form>
+
+    <br>
     <form id="userForm" action="/getUsers" method="get">
       <select id='urlField'>
         <option value='/getUsers'>/getUsers</option>
