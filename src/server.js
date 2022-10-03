@@ -11,11 +11,11 @@ const urlStruct = {
   GET: {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
-    '/getUsers': jsonHandler.getUsers,
+    '/getApes': jsonHandler.getApes,
     notFound: jsonHandler.notFound,
   },
   HEAD: {
-    '/getUsers': jsonHandler.getUsersMeta,
+    '/getApes': jsonHandler.getApesMeta,
     notFound: jsonHandler.notFoundMeta,
   },
   POST: {

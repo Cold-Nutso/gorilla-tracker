@@ -91,7 +91,7 @@
 
     // Get value from a set of radio buttons
     const grabChkdRadVal = (elem) => {
-      const options = elem.querySelectorAll('input');
+      const options = elem.querySelectorAll('input[type="radio"]');
       for (let rad of options) {
         if (rad.checked) {
           return rad.value;
@@ -107,7 +107,16 @@
       // Write something based on status
       switch(response.status) {
         case 200: 
-          content.innerHTML = `<b>Success</b>`;
+          // Parse to json asynchronously
+          let obj = await response.json();
+
+          content.innerHTML = "";
+        
+          for (let nameKey of Object.keys(obj.sightings)) {
+            const ape = obj.sightings[`${nameKey}`];
+
+            content.innerHTML += `<section class="sighting"><div class="sketch"></div><p>${ape.name}</p><p>${ape.looks[3]}</p> <p>${ape.bio}</p></section>`;
+          };
           break;
         case 201:
           content.innerHTML = `<b>Created</b>`;
@@ -127,14 +136,8 @@
       }
 
       // If this is a GET request
-      if (parseResponse) {
-        // Parse to json asynchronously
-        let obj = await response.json();
-        
-        // Stringify and display it
-        let jsonString = JSON.stringify(obj);
-        content.innerHTML += `<p>${jsonString}</p>`;
-      }
+      //if (parseResponse) {
+      //}
     };
 
     // Use fetch to send POST request asynchronously
@@ -214,7 +217,7 @@
 
       // Handle getUSer request
       // Also cancel built-in HTML form action
-      const getUsers = (e) => {
+      const getApes = (e) => {
         e.preventDefault();
         requestUpdate(userForm);
         return false;
@@ -222,7 +225,7 @@
       
       // Add event listeners
       entryForm.addEventListener('submit', addApe);
-      userForm.addEventListener('submit', getUsers);
+      userForm.addEventListener('submit', getApes);
 
       // Grab elems
       const nameBtn = entryForm.querySelector('#randName');
@@ -243,60 +246,98 @@
   </script>
 </head>
 <body>
-  <section id="top">
-    <h3>Record your sighting!</h3>
+  <h1>Record your sighting!</h1>
+
+  <section id="book">
+
     <form id="entryForm" action="/addApe" method="post">
 
-      <div id="skinField">
-        <label for="skinField">Skin: </label>
+      <section id="colorPicker">
+        <div id="skinField">
+          <label for="skinField">Skin</label>
 
-        <input type="radio" id="skin0" name="skinOpts" value='0'>
+          <input type="radio" id="skin0" name="skinOpts" value='0'>
 
-        <input type="radio" id="skin1" name="skinOpts" value='1'>
+          <input type="radio" id="skin1" name="skinOpts" value='1'>
 
-        <input type="radio" id="skin2" name="skinOpts" value='2' checked="true">
+          <input type="radio" id="skin2" name="skinOpts" value='2' checked="true">
 
-        <input type="radio" id="skin3" name="skinOpts" value='3'>
-      </div>
+          <input type="radio" id="skin3" name="skinOpts" value='3'>
+        </div>
 
-      <div id="furField">
-        <label for="furField">Fur Color: </label>
+        <div id="drawing">
+          <!--
+          <img id="faceImg" src="">
+          <img id="outlineImg" src="">
+          <img id="skinImg" src="">
+          <img id="furImg" src="">
+          -->
+        </div>
 
-        <input type="radio" id="fur0" name="furOpts" value='0' checked="true">
+        <div id="furField">
+          <label for="furField">Fur</label>
 
-        <input type="radio" id="fur1" name="furOpts" value='1'>
+          <input type="radio" id="fur0" name="furOpts" value='0' checked="true">
 
-        <input type="radio" id="fur2" name="furOpts" value='2'>
+          <input type="radio" id="fur1" name="furOpts" value='1'>
 
-        <input type="radio" id="fur3" name="furOpts" value='3'>
-      </div>
+          <input type="radio" id="fur2" name="furOpts" value='2'>
+
+          <input type="radio" id="fur3" name="furOpts" value='3'>
+        </div>
+      </section>
 
       <div id="eyesField">
-        <label for="eyesField">Eyes: </label>
+        <label for="eyesField">Face: </label>
 
-        <input type="radio" id="eyes0" name="eyesOpts" value='0' checked="true">
-        <label for="eyes0">Wide</label>
+        <div>
+          <input type="radio" id="eyes0" name="eyesOpts" value='0' checked="true">
+          <label for="eyes0">Beady</label>
+        </div>
 
-        <input type="radio" id="eyes1" name="eyesOpts" value='1'>
-        <label for="eyes1">Sleepy</label>
+        <div>
+          <input type="radio" id="eyes1" name="eyesOpts" value='1'>
+          <label for="eyes1">Surprised</label>
+        </div>
 
-        <input type="radio" id="eyes2" name="eyesOpts" value='2'>
-        <label for="eyes2">Angry</label>
+        <div>
+          <input type="radio" id="eyes2" name="eyesOpts" value='2'>
+          <label for="eyes2">Angry</label>
+        </div>
 
-        <input type="radio" id="eyes3" name="eyesOpts" value='3'>
-        <label for="eyes3">Concerned</label>
+        <div>
+          <input type="radio" id="eyes3" name="eyesOpts" value='3'>
+          <label for="eyes3">Tired</label>
+        </div>
+
+        <div>
+          <input type="radio" id="eyes4" name="eyesOpts" value='4'>
+          <label for="eyes4">Wild</label>
+        </div>
+
+        <div>
+          <input type="radio" id="eyes5" name="eyesOpts" value='5'>
+          <label for="eyes5">Cool</label>
+        </div>
       </div>
 
-      <label for="sexField">Sex: </label>
       <div id="sexField">
-        <input type="radio" id="sex1" name="sexOpts" value='M'>
-        <label for="sex1">M</label>
+        <label for="sexField">Sex: </label>
 
-        <input type="radio" id="sex2" name="sexOpts" value='F'>
-        <label for="sex2">F</label>
+        <div>
+          <input type="radio" id="sex1" name="sexOpts" value='M'>
+          <label for="sex1">M</label>
+        </div>
 
-        <input type="radio" id="sex3" name="sexOpts" value='?' checked="true">
-        <label for="sex3">?</label>
+        <div>
+          <input type="radio" id="sex2" name="sexOpts" value='F'>
+          <label for="sex2">F</label>
+        </div>
+
+        <div>
+          <input type="radio" id="sex3" name="sexOpts" value='?' checked="true">
+          <label for="sex3">?</label>
+        </div>
       </div>
 
       <input type="button" class="randBtn" id="randName" value="Gen" />
@@ -310,22 +351,27 @@
 
       <br>
       <input type="submit" value="Post Entry" />
+
     </form>
 
+
+    <section id="content">
+    </section>
+
     <br>
-    <form id="userForm" action="/getUsers" method="get">
+    <form id="userForm" action="/getApes" method="get">
       <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
+        <option value='/getApes'>/getApes</option>
         <option value='/notReal'>/notReal</option>
       </select>
       <select id="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
       </select>
-      <input type="submit" value="Get User" />
+      <input type="submit" value="Get Ape" />
     </form>
-  </section>
-  <section id="content">
+
+
   </section>
 </body>
 </html>

@@ -1,5 +1,5 @@
 // When node or heroku shuts down this will be cleared
-const users = {};
+const sightings = {};
 
 // Respond with a json object (for GET requests)
 const respondJSON = (request, response, status, object) => {
@@ -30,10 +30,10 @@ const respondJSONMeta = (request, response, status) => {
 };
 
 // Get user object
-const getUsers = (request, response) => {
+const getApes = (request, response) => {
   // JSON object
   const responseJSON = {
-    users,
+    sightings,
   };
 
   // Return status code and message
@@ -41,7 +41,7 @@ const getUsers = (request, response) => {
 };
 
 // Get meta info of user object
-const getUsersMeta = (request, response) => {
+const getApesMeta = (request, response) => {
   // Return status code and meta data
   respondJSONMeta(request, response, 200);
 };
@@ -80,16 +80,19 @@ const addApe = (request, response, body) => {
   // Default status code to 204
   let responseCode = 204;
 
-  // If user doesn't exist yet
-  if (!users[body.name]) {
+  // Searching through keys breaks the whole thing
+  //const sightingNum = Object.keys(sightings).length + 1;
+  
+  // If name doesn't exist yet
+  if (!sightings[body.name]) {
     responseCode = 201;
-    users[body.name] = {};
+    sightings[body.name] = {};
   }
 
   // Add/update fields for user name
-  users[body.name].looks = body.looks;
-  users[body.name].name = body.name;
-  users[body.name].bio = body.bio;
+  sightings[body.name].looks = body.looks;
+  sightings[body.name].name = body.name;
+  sightings[body.name].bio = body.bio;
 
   // If response is created, set message and send response
   if (responseCode === 201) {
@@ -102,8 +105,8 @@ const addApe = (request, response, body) => {
 };
 
 module.exports = {
-  getUsers,
-  getUsersMeta,
+  getApes,
+  getApesMeta,
   notFound,
   notFoundMeta,
   addApe,

@@ -5,14 +5,6 @@ html, body {
   padding: 0;
 }
 
-#top {
-  text-align: center;
-  margin: 0 auto;
-}
-
-#top h1 {
-  font-size: 2em;
-}
 
 #content {
   margin-top: 100px;
@@ -21,13 +13,61 @@ html, body {
 }
 
 
+/* ------------------------ */
+/* - - - - - BOOK - - - - - */
+/* ------------------------ */
+
+#book {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 50px;
+
+  margin: 0 auto;
+
+  background-color: lightyellow;
+}
+
+
+/* ------------------------------ */
+/* - - - - - ENTRY FORM - - - - - */
+/* ------------------------------ */
+
+#entryForm {
+  border: 5px dashed yellow;
+}
+
+/* -------------------------------- */
+/* - - - - - COLOR PICKER - - - - - */
+/* -------------------------------- */
+
+#colorPicker {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+}
+#drawing {
+  width: 300px;
+  height: 300px;
+  background-color: #badbad;
+}
+#drawing img {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+
+
 /* --------------------------------- */
 /* - - - - - RADIO BUTTONS - - - - - */
 /* --------------------------------- */
 
 /* Tips from this link */
 /* https://moderncss.dev/pure-css-custom-styled-radio-buttons/ */
-
 
 input[type="radio"] {
   /* Add if not using autoprefixer */
@@ -38,33 +78,27 @@ input[type="radio"] {
   /* Not removed via appearance */
   margin: 0;
 
-  width: 50px;
-  height: 50px;
-  background-color: red;
+  width: 30px;
+  height: 30px;
+  background-color: none;
   border: none;
   border-radius: 50%;
 }
-
 input[type="radio"]:checked {
-  outline: 5px solid black;
+  outline: 3px solid black;
   outline-offset: 5px;
 }
 
-input[type="radio"]:hover,
-#sexField label {
-  cursor: pointer;
-}
+#skinField, #furField {
+  width: 70px;
+  display: flex;
+  flex-direction: column;
 
-#sexField input[type="radio"] {
-  background-color: none;
-}
-#sexField label {
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  position: relative;
-  left: -35px;
-  top: -20px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+
+  border: 5px dashed green;
 }
 
 #fur0 { background-color: #141414; }
@@ -76,3 +110,53 @@ input[type="radio"]:hover,
 #skin1 { background-color: #454443; }
 #skin2 { background-color: #615b55; }
 #skin3 { background-color: #e0c1af; }
+
+#eyesField,
+#sexField {
+  display: flex;
+  flex-direction: row;
+  gap: 70px;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100px;
+  margin: 0;
+
+  border: 5px dashed red;
+}
+#eyesField div,
+#sexField div {
+  background-color: magenta;
+  position: relative;
+}
+#eyesField div *,
+#sexField div * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+input[type="radio"]:hover,
+#eyesField label:hover,
+#sexField label:hover {
+  cursor: pointer;
+}
+
+
+
+/* --------------------------- */
+/* - - - - - CONTENT - - - - - */
+/* --------------------------- */
+
+.sighting {
+  display: flex;
+  gap: 30px;
+}
+
+.sighting .sketch {
+  width: 100px;
+  height: 100px;
+
+  background-color: #badbad;
+}
