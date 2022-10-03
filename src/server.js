@@ -3,6 +3,7 @@ const url = require('url'); // URL module
 const query = require('querystring'); // Custom files
 const htmlHandler = require('./htmlResponses.js');
 const jsonHandler = require('./jsonResponses.js');
+const imageHandler = require('./imageResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -12,6 +13,8 @@ const urlStruct = {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
     '/getApes': jsonHandler.getApes,
+    '/getJS': htmlHandler.getJS,
+    '/getImage': imageHandler.getImage,
     notFound: jsonHandler.notFound,
   },
   HEAD: {

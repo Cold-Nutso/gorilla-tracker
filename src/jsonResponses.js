@@ -81,8 +81,8 @@ const addApe = (request, response, body) => {
   let responseCode = 204;
 
   // Searching through keys breaks the whole thing
-  //const sightingNum = Object.keys(sightings).length + 1;
-  
+  // const sightingNum = Object.keys(sightings).length + 1;
+
   // If name doesn't exist yet
   if (!sightings[body.name]) {
     responseCode = 201;
