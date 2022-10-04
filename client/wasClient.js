@@ -100,7 +100,13 @@ const handleResponse = async (response, parseResponse) => {
       for (const nameKey of Object.keys(obj.sightings)) {
         const ape = obj.sightings[`${nameKey}`];
 
-        content.innerHTML += `<section class="sighting"><div class="sketch"></div><p>${ape.name}</p><p>${ape.looks[3]}</p> <p>${ape.bio}</p></section>`;
+        let sketchStr = "";
+        sketchStr += `<img src="/getImage?type=fur&index=${ape.looks[0]}">`;
+        sketchStr += `<img src="/getImage?type=skin&index=${ape.looks[1]}">`;
+        sketchStr += `<img src="/getImage?type=outline">`;
+        sketchStr += `<img src="/getImage?type=face&index=${ape.looks[2]}">`;
+
+        content.innerHTML += `<section class="sighting"><div class="sketch">${sketchStr}</div><p>${ape.name}</p><p>${ape.looks[3]}</p><p>${ape.bio}</p></section>`;
       }
       break;
     case 201:
@@ -131,9 +137,9 @@ const sendPost = async (entryForm) => {
 
   // Construct string for body values
   let looksVal = '';
-  looksVal += grabChkdRadVal(entryForm.querySelector('#skinField'));
   looksVal += grabChkdRadVal(entryForm.querySelector('#furField'));
-  looksVal += grabChkdRadVal(entryForm.querySelector('#eyesField'));
+  looksVal += grabChkdRadVal(entryForm.querySelector('#skinField'));
+  looksVal += grabChkdRadVal(entryForm.querySelector('#faceField'));
   looksVal += grabChkdRadVal(entryForm.querySelector('#sexField'));
 
   // Generate name and bio if necessary
@@ -196,7 +202,7 @@ const init = () => {
     return false;
   };
 
-  // Handle getUSer request
+  // Handle getApes request
   // Also cancel built-in HTML form action
   const getApes = (e) => {
     e.preventDefault();
@@ -222,8 +228,29 @@ const init = () => {
     bioField.value = genBio();
   });
 
-  // Try loading image
-  //document.querySelector("#drawing").innerHTML = "";
+  const furImg = entryForm.querySelector('#furImg');
+  const skinImg = entryForm.querySelector('#skinImg');
+  const faceImg = entryForm.querySelector('#faceImg');
+
+  const furOpts = entryForm.querySelector("#furField").querySelectorAll("input[type='radio']");
+  const skinOpts = entryForm.querySelector("#skinField").querySelectorAll("input[type='radio']");
+  const faceOpts = entryForm.querySelector("#faceField").querySelectorAll("input[type='radio']");
+
+  for (let radBtn of furOpts) {
+    radBtn.addEventListener('click', () => {
+      furImg.src = `/getImage?type=fur&index=${radBtn.value}`;
+    });
+  }
+  for (let radBtn of skinOpts) {
+    radBtn.addEventListener('click', () => {
+      skinImg.src = `/getImage?type=skin&index=${radBtn.value}`;
+    });
+  }
+  for (let radBtn of faceOpts) {
+    radBtn.addEventListener('click', () => {
+      faceImg.src = `/getImage?type=face&index=${radBtn.value}`;
+    });
+  }
 };
 
 window.onload = init;

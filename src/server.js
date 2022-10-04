@@ -12,13 +12,14 @@ const urlStruct = {
   GET: {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
-    '/getApes': jsonHandler.getApes,
     '/getJS': htmlHandler.getJS,
+    '/getApes': jsonHandler.getApes,
     '/getImage': imageHandler.getImage,
     notFound: jsonHandler.notFound,
   },
   HEAD: {
     '/getApes': jsonHandler.getApesMeta,
+    '/getImage': imageHandler.getImageMeta,
     notFound: jsonHandler.notFoundMeta,
   },
   POST: {
@@ -52,6 +53,8 @@ const parseBody = (request, response, handler) => {
     // Parse into string
     const bodyParams = query.parse(bodyString);
 
+    console.log(bodyParams);
+
     // Call handler
     handler(request, response, bodyParams);
   });
@@ -61,12 +64,30 @@ const parseBody = (request, response, handler) => {
 const onRequest = (request, response) => {
   // Parse info from URL
   const parsedUrl = url.parse(request.url);
-
   // Check if no method
   if (!urlStruct[request.method]) {
     return urlStruct.HEAD.notFound(request, response);
   } if (request.method === 'POST') {
+    console.log(request.url);
     return parseBody(request, response, urlStruct[request.method][parsedUrl.pathname]);
+  } if (parsedUrl.pathname === '/getImage') {
+    // Param object to fill and send to getImage
+    const paramObj = {};
+
+    // Isolate param part of url from pathname
+    const isolatedParams = parsedUrl.path.slice(parsedUrl.pathname.length + 1);
+
+    // Split url into array of param strings
+    const paramStrings = isolatedParams.split('&');
+    paramStrings.forEach((param) => {
+      // Split param into key and value pair
+      const [ key, val ] = param.split('='); // This is array destructuring apparently.
+      // Add to paramObj
+      paramObj[key] = val;
+    });
+
+    // Send to getImage
+    return urlStruct[request.method]['/getImage'](request, response, paramObj);
   } if (urlStruct[request.method][parsedUrl.pathname]) {
     return urlStruct[request.method][parsedUrl.pathname](request, response);
   }

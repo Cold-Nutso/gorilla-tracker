@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>GORILLA GORILLA GORILLA</title>
+  <title>Silly Gorillies</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script src="/getJS"></script>
@@ -17,23 +17,21 @@
         <div id="skinField">
           <label for="skinField">Skin</label>
 
-          <input type="radio" id="skin0" name="skinOpts" value='0'>
+          <input type="radio" id="skin0" name="skinOpts" value='0' checked="true">
 
           <input type="radio" id="skin1" name="skinOpts" value='1'>
 
-          <input type="radio" id="skin2" name="skinOpts" value='2' checked="true">
+          <input type="radio" id="skin2" name="skinOpts" value='2'>
 
           <input type="radio" id="skin3" name="skinOpts" value='3'>
         </div>
 
         <div id="drawing">
-          <img src="/getImage" alt="">
-          <!--
-          <img id="faceImg" src="">
-          <img id="outlineImg" src="">
-          <img id="skinImg" src="">
-          <img id="furImg" src="">
-          -->
+          <img id="furImg" src="/getImage?type=fur&index=0" alt="">
+          <img id="skinImg" src="/getImage?type=skin&index=0" alt="">
+          <img id="outlineImg" src="/getImage?type=outline" alt="">
+          <img id="faceImg" src="/getImage?type=face&index=0" alt="">
+
         </div>
 
         <div id="furField">
@@ -49,37 +47,37 @@
         </div>
       </section>
 
-      <div id="eyesField">
-        <label for="eyesField">Face: </label>
+      <div id="faceField">
+        <label for="faceField">Face: </label>
 
         <div>
-          <input type="radio" id="eyes0" name="eyesOpts" value='0' checked="true">
-          <label for="eyes0">Beady</label>
+          <input type="radio" id="face0" name="faceOpts" value='0' checked="true">
+          <label for="face0">Beady</label>
         </div>
 
         <div>
-          <input type="radio" id="eyes1" name="eyesOpts" value='1'>
-          <label for="eyes1">Surprised</label>
+          <input type="radio" id="face1" name="faceOpts" value='1'>
+          <label for="face1">Surprised</label>
         </div>
 
         <div>
-          <input type="radio" id="eyes2" name="eyesOpts" value='2'>
-          <label for="eyes2">Angry</label>
+          <input type="radio" id="face2" name="faceOpts" value='2'>
+          <label for="face2">Angry</label>
         </div>
 
         <div>
-          <input type="radio" id="eyes3" name="eyesOpts" value='3'>
-          <label for="eyes3">Tired</label>
+          <input type="radio" id="face3" name="faceOpts" value='3'>
+          <label for="face3">Tired</label>
         </div>
 
         <div>
-          <input type="radio" id="eyes4" name="eyesOpts" value='4'>
-          <label for="eyes4">Wild</label>
+          <input type="radio" id="face4" name="faceOpts" value='4'>
+          <label for="face4">Wild</label>
         </div>
 
         <div>
-          <input type="radio" id="eyes5" name="eyesOpts" value='5'>
-          <label for="eyes5">Cool</label>
+          <input type="radio" id="face5" name="faceOpts" value='5'>
+          <label for="face5">Cool</label>
         </div>
       </div>
 

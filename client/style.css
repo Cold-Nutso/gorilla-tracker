@@ -55,6 +55,8 @@ html, body {
   width: 300px;
   height: 300px;
 
+  position: absolute;
+
   /*
   top: 50%;
   left: 50%;
@@ -113,7 +115,7 @@ input[type="radio"]:checked {
 #skin2 { background-color: #615b55; }
 #skin3 { background-color: #e0c1af; }
 
-#eyesField,
+#faceField,
 #sexField {
   display: flex;
   flex-direction: row;
@@ -127,12 +129,12 @@ input[type="radio"]:checked {
 
   border: 5px dashed red;
 }
-#eyesField div,
+#faceField div,
 #sexField div {
   background-color: magenta;
   position: relative;
 }
-#eyesField div *,
+#faceField div *,
 #sexField div * {
   position: absolute;
   top: 50%;
@@ -140,7 +142,7 @@ input[type="radio"]:checked {
   transform: translate(-50%, -50%);
 }
 input[type="radio"]:hover,
-#eyesField label:hover,
+#faceField label:hover,
 #sexField label:hover {
   cursor: pointer;
 }
@@ -157,8 +159,19 @@ input[type="radio"]:hover,
 }
 
 .sighting .sketch {
+
+  position: relative; /* Forces images to consider this a positioned parent */
   width: 100px;
   height: 100px;
 
-  background-color: #badbad;
+  border: 2px dashed lightskyblue;
+}
+
+.sighting .sketch img {
+  width: 100px;
+  height: 100px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
 }
