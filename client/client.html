@@ -2,54 +2,32 @@
 <html lang="en">
 <head>
   <title>Silly Gorillies</title>
+  <!-- Add Indie Flower font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" type="text/css" href="/style.css">
-  
-  <script src="/getJS"></script>
+  <script type="module" src="/getClientJS"></script>
 </head>
 <body>
   <h1>Record your sighting!</h1>
 
-  <section id="book">
+  <div id="book">
+  <div id="bookCover"></div>
+  <section id="pages">
 
-    <form id="entryForm" action="/addApe" method="post">
+    <div class="slope">
+      <div id="leftTrap"></div>
+      <div class="slopeRect"></div>
+    </div>
+    <form id="infoForm" action="/addApe" method="post">
+      <h1>Ape Information Form</h1>
 
-      <section id="colorPicker">
-        <div id="skinField">
-          <label for="skinField">Skin</label>
 
-          <input type="radio" id="skin0" name="skinOpts" value='0' checked="true">
-
-          <input type="radio" id="skin1" name="skinOpts" value='1'>
-
-          <input type="radio" id="skin2" name="skinOpts" value='2'>
-
-          <input type="radio" id="skin3" name="skinOpts" value='3'>
-        </div>
-
-        <div id="drawing">
-          <img id="furImg" src="/getImage?type=fur&index=0" alt="">
-          <img id="skinImg" src="/getImage?type=skin&index=0" alt="">
-          <img id="outlineImg" src="/getImage?type=outline" alt="">
-          <img id="faceImg" src="/getImage?type=face&index=0" alt="">
-
-        </div>
-
-        <div id="furField">
-          <label for="furField">Fur</label>
-
-          <input type="radio" id="fur0" name="furOpts" value='0' checked="true">
-
-          <input type="radio" id="fur1" name="furOpts" value='1'>
-
-          <input type="radio" id="fur2" name="furOpts" value='2'>
-
-          <input type="radio" id="fur3" name="furOpts" value='3'>
-        </div>
-      </section>
+      <h2>Appearance:</h2>
 
       <div id="faceField">
-        <label for="faceField">Face: </label>
-
         <div>
           <input type="radio" id="face0" name="faceOpts" value='0' checked="true">
           <label for="face0">Beady</label>
@@ -57,7 +35,7 @@
 
         <div>
           <input type="radio" id="face1" name="faceOpts" value='1'>
-          <label for="face1">Surprised</label>
+          <label for="face1">Keen</label>
         </div>
 
         <div>
@@ -81,57 +59,89 @@
         </div>
       </div>
 
-      <div id="sexField">
+      <section id="colorPicker">
+        <div id="skinField">
+          <input type="radio" id="skin0" name="skinOpts" value='0' checked="true">
+
+          <input type="radio" id="skin1" name="skinOpts" value='1'>
+
+          <input type="radio" id="skin2" name="skinOpts" value='2'>
+
+          <input type="radio" id="skin3" name="skinOpts" value='3'>
+        </div>
+
+        <div id="drawing">
+          <img id="furImg" src="/getImage?type=fur&index=0" alt="">
+          <img id="skinImg" src="/getImage?type=skin&index=0" alt="">
+          <img id="outlineImg" src="/getImage?type=outline" alt="">
+          <img id="faceImg" src="/getImage?type=face&index=0" alt="">
+
+        </div>
+
+        <div id="furField">
+          <input type="radio" id="fur0" name="furOpts" value='0' checked="true">
+
+          <input type="radio" id="fur1" name="furOpts" value='1'>
+
+          <input type="radio" id="fur2" name="furOpts" value='2'>
+
+          <input type="radio" id="fur3" name="furOpts" value='3'>
+        </div>
+      </section>
+
+      <div id="nameAndSex">
+        <div id="namePicker">
+          <input type="image" class="randBtn" id="randName" src="https://cdn-icons-png.flaticon.com/512/60/60879.png" />
+          <label for="name">Name: </label>
+          <input id="nameField" type="text" name="name" />
+        </div>
+
         <label for="sexField">Sex: </label>
-
-        <div>
-          <input type="radio" id="sex1" name="sexOpts" value='M'>
-          <label for="sex1">M</label>
-        </div>
-
-        <div>
-          <input type="radio" id="sex2" name="sexOpts" value='F'>
-          <label for="sex2">F</label>
-        </div>
-
-        <div>
-          <input type="radio" id="sex3" name="sexOpts" value='?' checked="true">
-          <label for="sex3">?</label>
+        <div id="sexField">
+          <div>
+            <input type="radio" id="sex1" name="sexOpts" value='M'>
+            <label for="sex1">M</label>
+          </div>
+  
+          <div>
+            <input type="radio" id="sex2" name="sexOpts" value='F'>
+            <label for="sex2">F</label>
+          </div>
+  
+          <div>
+            <input type="radio" id="sex3" name="sexOpts" value='?' checked="true">
+            <label for="sex3">?</label>
+          </div>
         </div>
       </div>
 
-      <input type="button" class="randBtn" id="randName" value="Gen" />
-      <label for="name">Name: </label>
-      <input id="nameField" type="text" name="name" />
-      <br>
+      <div id="bioPicker">
+        <input type="image" class="randBtn" id="randBio" src="https://cdn-icons-png.flaticon.com/512/60/60879.png" />
+        <h2>Description:</h2>
+      </div>
+      <input id="bioField" type="text" name="bio"/>
 
-      <input type="button" class="randBtn" id="randBio" value="Gen" />
-      <label for="bio">Personality: </label>
-      <input id="bioField" type="text" name="bio" />
-
-      <br>
-      <input type="submit" value="Post Entry" />
-
+      <div id="submitDiv">
+        <input type="submit" value="Submit" />
+      </div>
+      
     </form>
+    <div id="leftCurve"></div>
 
-
-    <section id="content">
-    </section>
-
-    <br>
-    <form id="userForm" action="/getApes" method="get">
-      <select id='urlField'>
-        <option value='/getApes'>/getApes</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-      <select id="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-      <input type="submit" value="Get Ape" />
-    </form>
-
-
+    <div id="rightCurve"></div>
+    <div id="page2">
+      <h1>Recent Ape Sightings</h1>
+      <section id="pastApes">
+      </section>
+      <form id="getForm" action="/getApes" method="get">
+        <input type="submit" value="Update" />
+      </form>
+    </div>
+    <div class="slope">
+      <div id="rightTrap"></div>
+      <div class="slopeRect"></div>
+    </div>
   </section>
+  </div>
 </body>
 </html>

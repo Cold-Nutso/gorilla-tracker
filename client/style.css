@@ -1,76 +1,22 @@
+/* --------------------------- */
+/* - - - - - GENERAL - - - - - */
+/* --------------------------- */
+
 html, body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Indie Flower', cursive;
+  font-weight: bold;
+
+  background-color: #66b082;
 }
-
-
-#content {
-  margin-top: 100px;
-  font-size: 2em;
+h1, h2, h3 {
   text-align: center;
 }
 
-
-/* ------------------------ */
-/* - - - - - BOOK - - - - - */
-/* ------------------------ */
-
-#book {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-gap: 50px;
-
-  margin: 0 auto;
-
-  background-color: lightyellow;
-}
-
-
-/* ------------------------------ */
-/* - - - - - ENTRY FORM - - - - - */
-/* ------------------------------ */
-
-#entryForm {
-  border: 5px dashed yellow;
-}
-
-/* -------------------------------- */
-/* - - - - - COLOR PICKER - - - - - */
-/* -------------------------------- */
-
-#colorPicker {
-  display: flex;
-  justify-content: center;
-
-  width: 100%;
-}
-#drawing {
-  width: 300px;
-  height: 300px;
-  background-color: #badbad;
-}
-#drawing img {
-  width: 300px;
-  height: 300px;
-
-  position: absolute;
-
-  /*
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  */
-}
-
-
-
-/* --------------------------------- */
-/* - - - - - RADIO BUTTONS - - - - - */
-/* --------------------------------- */
-
-/* Tips from this link */
+/* Radio button tips from this link */
 /* https://moderncss.dev/pure-css-custom-styled-radio-buttons/ */
 
 input[type="radio"] {
@@ -78,13 +24,13 @@ input[type="radio"] {
   -webkit-appearance: none;
   appearance: none;
   /* For iOS < 15 to remove gradient background */
-  background-color: #fff;
+  background-color: inherit;
   /* Not removed via appearance */
   margin: 0;
 
-  width: 30px;
-  height: 30px;
-  background-color: none;
+  width: 40px;
+  height: 40px;
+  background-color: inherit;
   border: none;
   border-radius: 50%;
 }
@@ -93,85 +39,384 @@ input[type="radio"]:checked {
   outline-offset: 5px;
 }
 
-#skinField, #furField {
-  width: 70px;
-  display: flex;
-  flex-direction: column;
-
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-
-  border: 5px dashed green;
+#content {
+  margin-top: 100px;
+  font-size: 2em;
+  text-align: center;
 }
 
-#fur0 { background-color: #141414; }
-#fur1 { background-color: #262422; }
-#fur2 { background-color: #403c39; }
-#fur3 { background-color: #e3d8d3; }
 
-#skin0 { background-color: #2b2b2a; }
-#skin1 { background-color: #454443; }
-#skin2 { background-color: #615b55; }
-#skin3 { background-color: #e0c1af; }
 
-#faceField,
-#sexField {
+/* ------------------------ */
+/* - - - - - BOOK - - - - - */
+/* ------------------------ */
+
+#book {
+  width: 1250px;
+  height: 1000px;
+
+  position: relative;
+  margin: 0 auto;
+}
+#bookCover {
+  width: 100%;
+  height: 705px;
+
+  position: absolute;
+  top: 10px;
+
+  border-radius: 25px;
+  background-color: #241610;
+}
+#pages{
+  width: 1200px;
+  height: 700px;
+  display: grid;
+  grid-template-columns: 50px 1fr 70px 70px 1fr 50px;
+  grid-gap: 0;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  
+
+  margin: 0 auto;
+}
+
+/* Style page slopes */
+.slope { position: relative; }
+#leftTrap, #rightTrap {
+  height: 80%;
+  background-color: rgb(215, 215, 183);
+}
+#leftTrap { transform: skewY(-20deg) translateY(1.6%); }
+#rightTrap { transform: skewY(20deg) translateY(1.6%); }
+.slopeRect {
+  width: 100%;
+  height: 200px;
+
+  position: absolute;
+  top: 500px;
+
+  background-color: rgb(215, 215, 183);
+}
+
+/* Style page curves */
+#leftCurve {
+  border-top-right-radius: 100px;
+  background-image: linear-gradient(to right, lightyellow , rgb(215, 215, 183))
+}
+#rightCurve {
+  border-top-left-radius: 100px;
+  background-image: linear-gradient(to left, lightyellow , rgb(215, 215, 183))
+}
+
+/* ----------------------------- */
+/* - - - - - INFO FORM - - - - - */
+/* ----------------------------- */
+
+#infoForm {
+  position: relative;
+
+  background-color: lightyellow;
+}
+#infoForm h1, #page2 h1 {
+  margin: 10px 0;
+  font-size: 30pt;
+  text-decoration: underline;
+}
+#infoForm h2 {
+  margin: 10px 0;
+  font-size: 20pt;
+}
+
+/* ------------------------------- */
+/* - - - - - FACE PICKER - - - - - */
+/* ------------------------------- */
+
+#faceField {
+  width: 80%;
+  height: 80px;
+  margin: -25px auto 0 auto;
+
   display: flex;
   flex-direction: row;
-  gap: 70px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
-  width: 100%;
-  height: 100px;
-  margin: 0;
-
-  border: 5px dashed red;
+  /* background-color:rgba(0, 255, 0, .1); */
 }
-#faceField div,
-#sexField div {
-  background-color: magenta;
-  position: relative;
+#faceField div, #sexField div { 
+  position: relative; 
 }
-#faceField div *,
-#sexField div * {
+#faceField div *, #sexField div * {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-input[type="radio"]:hover,
-#faceField label:hover,
-#sexField label:hover {
+#faceField div label {
+  user-select: none;
+  font-size: 15pt; 
+}
+#faceField div input[type="radio"] {
+  width: 30px;
+  height: 30px;
+}
+#faceField input[type="radio"]:hover,
+#sexField input[type="radio"]:hover { 
+  cursor: default; 
+}
+#faceField div label:hover,
+#sexField div label:hover { 
+  cursor: pointer; 
+}
+
+/* -------------------------------- */
+/* - - - - - COLOR PICKER - - - - - */
+/* -------------------------------- */
+
+#colorPicker {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#drawing {
+  width: 292px;
+  height: 292px;
+
+  position: relative;
+
+  border: 4px solid black; /* Border adds to total length*/
+}
+#drawing img {
+  width: 95%;
+  height: 95%;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#skinField, #furField {
+  width: 70px;
+  height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  /* background-color:rgba(0, 255, 0, .1); */
+}
+
+#skin0 { background-color: #26221e; }
+#skin1 { background-color: #3f3a35; }
+#skin2 { background-color: #5e5853; }
+#skin3 { background-color: #dbbfb3; }
+
+#fur0 { background-color: #11100f; }
+#fur1 { background-color: #312e2c; }
+#fur2 { background-color: #7e7974; }
+#fur3 { background-color: #e1d5c7; }
+
+/* -------------------------------- */
+/* - - - - - NAME AND SEX - - - - - */
+/* -------------------------------- */
+
+#nameAndSex {
+  width: 90%;
+  margin: 25px auto 10px auto;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 20pt;
+  /* background-color:rgba(0, 255, 0, .1); */
+}
+
+/* ------------------------------- */
+/* - - - - - NAME PICKER - - - - - */
+/* ------------------------------- */
+
+#namePicker {
+  margin: 0;
+  
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 20pt;
+}
+#randName, #randBio {
+  width: 25px;
+  height: 25px;
+
+  border: none;
+  background-color: inherit;
+}
+#randName:hover, #randBio:hover {
   cursor: pointer;
+}
+#nameField, #bioField {
+  width: 130px;
+  height: 25px;
+
+  margin-right: 20px;
+
+  font-family: 'Indie Flower', cursive;
+  font-size: 18pt;
+  font-weight: normal;
+
+  border: none;
+  border-bottom: 3px solid black;
+  background-color: inherit
+}
+#nameField:focus, #bioField:focus {
+  outline: none;
+}
+
+/* ------------------------------ */
+/* - - - - - SEX PICKER - - - - - */
+/* ------------------------------ */
+
+#sexField {
+  width: 100px;
+  margin: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+}
+#sexField div input[type="radio"] {
+  width: 20px;
+  height: 20px;
+}
+#sexField div label {
+  user-select: none;
+}
+
+/* ------------------------------ */
+/* - - - - - BIO PICKER - - - - - */
+/* ------------------------------ */
+
+#bioPicker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+#bioField {
+  width: 90%;
+  margin: 0 auto;
+
+  display: block;
+
+  text-align: center;
+}
+
+/* -------------------------------------- */
+/* - - - - - SUBMISSION BUTTONS - - - - - */
+/* -------------------------------------- */
+
+#submitDiv,
+#getForm {
+  width: 100px;
+  height: 150px;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 700px);
+  border-inline: 5px solid burlywood;
+  background-color: darkred;
+}
+#submitDiv input[type="submit"],
+#getForm input[type="submit"] {
+  width: 100%;
+  height: 50px;
+  margin-top: 50px;
+
+  font-size: 18pt;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: burlywood;
+
+  text-align: center;
+  overflow: wrap;
+
+  border: none;
+  background-color: inherit;
+}
+#submitDiv input[type="submit"]:hover,
+#getForm input[type="submit"]:hover {
+  cursor: pointer;
+  color: white;
 }
 
 
 
-/* --------------------------- */
-/* - - - - - CONTENT - - - - - */
-/* --------------------------- */
+/* -------------------------- */
+/* - - - - - PAGE 2 - - - - - */
+/* -------------------------- */
+
+#page2 {
+  position: relative;
+
+  background-color: lightyellow;
+}
+
+#pastApes {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+/* ---------------------------- */
+/* - - - - - SIGHTING - - - - - */
+/* ---------------------------- */
 
 .sighting {
+  margin: 0 auto;
+  width: 430px;
+  height: 70px;
   display: flex;
-  gap: 30px;
+  justify-content: left;
+  align-items: center;
+  gap: 5px;
 }
 
 .sighting .sketch {
-
   position: relative; /* Forces images to consider this a positioned parent */
-  width: 100px;
-  height: 100px;
-
-  border: 2px dashed lightskyblue;
+  width: 70px;
+  height: 70px;
 }
 
 .sighting .sketch img {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
 
   position: absolute;
   top: 0;
   left: 0;
+}
+.sighting .summary .sumName {
+  margin-top: 17px;
+  font-size: 18pt;
+}
+.sighting .summary .sumBio {
+  width: 355px;
+  margin-top: -23px;
+
+  font-size: 15pt;
+  font-weight: normal;
+
+  text-overflow: wrap;
 }

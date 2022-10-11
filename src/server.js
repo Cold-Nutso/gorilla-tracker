@@ -12,7 +12,8 @@ const urlStruct = {
   GET: {
     '/': htmlHandler.getIndex,
     '/style.css': htmlHandler.getCSS,
-    '/getJS': htmlHandler.getJS,
+    '/getClientJS': htmlHandler.getClientJS,
+    '/getApeJS': htmlHandler.getApeJS,
     '/getApes': jsonHandler.getApes,
     '/getImage': imageHandler.getImage,
     notFound: jsonHandler.notFound,
@@ -79,15 +80,17 @@ const onRequest = (request, response) => {
 
     // Split url into array of param strings
     const paramStrings = isolatedParams.split('&');
+
     paramStrings.forEach((param) => {
       // Split param into key and value pair
-      const [ key, val ] = param.split('='); // This is array destructuring apparently.
+      const [key, val] = param.split('='); // This is array destructuring apparently.
       // Add to paramObj
       paramObj[key] = val;
     });
 
     // Send to getImage
     return urlStruct[request.method]['/getImage'](request, response, paramObj);
+
   } if (urlStruct[request.method][parsedUrl.pathname]) {
     return urlStruct[request.method][parsedUrl.pathname](request, response);
   }

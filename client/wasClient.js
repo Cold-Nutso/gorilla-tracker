@@ -1,74 +1,4 @@
-// ----------------------------
-// - - - - - APE DATA - - - - -
-// ----------------------------
-
-const preCon = ['b', 'f', 'g', 'h', 'j', 'k', 'm', 'p', 'r', 't', 'w', 'y', 'z', 'ch'];
-const vowel = ['a', 'e', 'i', 'o', 'u'];
-const sufCon = ['h', 'l', 'm', 'n'];
-
-const bioA = ['Never ', 'A little ', 'A bit ', 'Partially ', 'Somewhat ', 'Kind of ', 'Sometimes ', 'Occasionally ', 'Frequently ', 'Always ', 'Permanently ', 'Eternally ', 'Tends to be ', 'Extremely ', 'Strangely ', 'Oddly ', 'Weirdly '];
-const bioB = ['friendly', 'hungry', 'angry', 'cheerful', 'curious', 'annoyed', 'chatty', 'stoic', 'intense', 'excited', 'jolly', 'goofy', 'weird', 'creative'];
-
-// ---------------------------------
-// - - - - - APE FUNCTIONS - - - - -
-// ---------------------------------
-
-// Gets a random element from an array
-const randElem = (array) => array[Math.floor(Math.random() * array.length)];
-
-// Generates a random syllable
-const genSyllable = () => {
-  // Declare empty string
-  let syllable = '';
-
-  // 10% chance to NOT have a beginning consonant
-  if (Math.random() < 0.9) {
-    syllable += randElem(preCon);
-  }
-
-  // Always have a vowel
-  syllable += randElem(vowel);
-
-  // 60% chance to NOT have an ending consonant
-  if (Math.random() < 0.4) {
-    syllable += randElem(sufCon);
-  }
-
-  // Return generated string
-  return syllable;
-};
-
-// Generates a random name
-const genName = () => {
-  // Declare some variables
-  let name = '';
-  let goodToGo = false;
-
-  // Run generation loop
-  while (!goodToGo) {
-    // Declare name with two random syllables
-    name = genSyllable() + genSyllable();
-
-    // 20% chance to add a vowel at the beginning
-    if (Math.random() < 0.2) {
-      name = randElem(vowel) + name;
-    }
-
-    // Check for bad words
-    if (name != 'rape' && name != 'anal') {
-      // Capitalize the first char
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-
-      goodToGo = true;
-    }
-  }
-
-  // Return generated name
-  return name;
-};
-
-// Generates a random bio
-const genBio = () => `${randElem(bioA) + randElem(bioB)}.`;
+import { genName, genBio } from "/getApeJS";
 
 // ----------------------------------
 // - - - - - FORM FUNCTIONS - - - - -
@@ -86,61 +16,60 @@ const grabChkdRadVal = (elem) => {
 
 // Handle response asynchronously
 const handleResponse = async (response, parseResponse) => {
-  // Grab content elem
-  const content = document.querySelector('#content');
+  // GrabpastApes elem
+  const pastApes = document.querySelector('#pastApes');
 
-  // Write something based on status
-  switch (response.status) {
-    case 200:
-      // Parse to json asynchronously
-      const obj = await response.json();
+  if (response.status === 200) {
+    // Parse to json asynchronously
+    const obj = await response.json();
 
-      content.innerHTML = '';
+    pastApes.innerHTML = '';
 
-      for (const nameKey of Object.keys(obj.sightings)) {
-        const ape = obj.sightings[`${nameKey}`];
+    // Create an array of received apes
+    const receivedApes = [];
+    
+    for (const nameKey of Object.keys(obj.sightings)) {
+    const ape = obj.sightings[`${nameKey}`];
+    receivedApes.push(ape);
+    }
 
-        let sketchStr = "";
-        sketchStr += `<img src="/getImage?type=fur&index=${ape.looks[0]}">`;
-        sketchStr += `<img src="/getImage?type=skin&index=${ape.looks[1]}">`;
-        sketchStr += `<img src="/getImage?type=outline">`;
-        sketchStr += `<img src="/getImage?type=face&index=${ape.looks[2]}">`;
+    // Only display a max of 7 apes
+    let maxApes = 7;
+    if (receivedApes.length < 7) {
+      maxApes = receivedApes.length;
+    }
 
-        content.innerHTML += `<section class="sighting"><div class="sketch">${sketchStr}</div><p>${ape.name}</p><p>${ape.looks[3]}</p><p>${ape.bio}</p></section>`;
-      }
-      break;
-    case 201:
-      content.innerHTML = '<b>Created</b>';
-      break;
-    case 204:
-      content.innerHTML = '<b>Updated (No Content)</b>';
-      break;
-    case 400:
-      content.innerHTML = '<b>Bad Request</b>';
-      break;
-    case 404:
-      content.innerHTML = '<b>Resource Not Found</b>';
-      break;
-    default:
-      content.innerHTML = 'Error code not implemented by client.';
-      break;
+    // Get the most recent ones
+    for (let i=receivedApes.length-1; i>receivedApes.length-maxApes-1; i--) {
+      let sketchStr = ``;
+      sketchStr += `<img src="/getImage?type=fur&index=${receivedApes[i].looks[0]}">`;
+      sketchStr += `<img src="/getImage?type=skin&index=${receivedApes[i].looks[1]}">`;
+      sketchStr += `<img src="/getImage?type=outline">`;
+      sketchStr += `<img src="/getImage?type=face&index=${receivedApes[i].looks[2]}">`;
+  
+      let summaryStr = ``;
+      summaryStr += `<p class="sumName">${receivedApes[i].name} - ${receivedApes[i].looks[3]}<p>`;
+      summaryStr += `<p class="sumBio">${receivedApes[i].bio}</p>`
+      
+      pastApes.innerHTML += `<section class="sighting"><div class="sketch">${sketchStr}</div><div class="summary">${summaryStr}</div></section>`;
+    }
   }
 };
 
 // Use fetch to send POST request asynchronously
-const sendPost = async (entryForm) => {
+const sendPost = async (infoForm) => {
   // Grab info from entryForm elems
-  const entryAction = entryForm.getAttribute('action');
-  const entryMethod = entryForm.getAttribute('method');
-  const nameField = entryForm.querySelector('#nameField');
-  const bioField = entryForm.querySelector('#bioField');
+  const entryAction = infoForm.getAttribute('action');
+  const entryMethod = infoForm.getAttribute('method');
+  const nameField = infoForm.querySelector('#nameField');
+  const bioField = infoForm.querySelector('#bioField');
 
   // Construct string for body values
   let looksVal = '';
-  looksVal += grabChkdRadVal(entryForm.querySelector('#furField'));
-  looksVal += grabChkdRadVal(entryForm.querySelector('#skinField'));
-  looksVal += grabChkdRadVal(entryForm.querySelector('#faceField'));
-  looksVal += grabChkdRadVal(entryForm.querySelector('#sexField'));
+  looksVal += grabChkdRadVal(infoForm.querySelector('#furField'));
+  looksVal += grabChkdRadVal(infoForm.querySelector('#skinField'));
+  looksVal += grabChkdRadVal(infoForm.querySelector('#faceField'));
+  looksVal += grabChkdRadVal(infoForm.querySelector('#sexField'));
 
   // Generate name and bio if necessary
   if (nameField.value === '') {
@@ -171,11 +100,10 @@ const sendPost = async (entryForm) => {
 };
 
 // Send GET request asynchronously
-const requestUpdate = async (userForm) => {
+const requestUpdate = async () => {
   // Grab URL and method from form elems
-  const url = userForm.querySelector('#urlField').value;
-  const method = userForm.querySelector('#methodSelect').value;
-
+  const url = '/getApes';
+  const method = 'get';
   // Await fetch response
   // Use URL and method to attach headers
   const response = await fetch(url, {
@@ -191,14 +119,14 @@ const requestUpdate = async (userForm) => {
 
 const init = () => {
   // Grab entryForm and userForm elem
-  const entryForm = document.querySelector('#entryForm');
-  const userForm = document.querySelector('#userForm');
+  const infoForm = document.querySelector('#infoForm');
+  const getForm = document.querySelector('#getForm');
 
   // Create addApe function
   // Also cancel built-in HTML form action
   const addApe = (e) => {
     e.preventDefault();
-    sendPost(entryForm);
+    sendPost(infoForm);
     return false;
   };
 
@@ -206,35 +134,39 @@ const init = () => {
   // Also cancel built-in HTML form action
   const getApes = (e) => {
     e.preventDefault();
-    requestUpdate(userForm);
+    requestUpdate();
     return false;
   };
 
   // Add event listeners
-  entryForm.addEventListener('submit', addApe);
-  userForm.addEventListener('submit', getApes);
+  infoForm.addEventListener('submit', addApe);
+  getForm.addEventListener('submit', getApes);
 
   // Grab elems
-  const nameBtn = entryForm.querySelector('#randName');
-  const bioBtn = entryForm.querySelector('#randBio');
-  const nameField = entryForm.querySelector('#nameField');
-  const bioField = entryForm.querySelector('#bioField');
+  const nameBtn = infoForm.querySelector('#randName');
+  const bioBtn = infoForm.querySelector('#randBio');
+  const nameField = infoForm.querySelector('#nameField');
+  const bioField = infoForm.querySelector('#bioField');
 
   // Add event listeners
+  // For some reason image clicks count as submits
+  // Counteract that by returning false
   nameBtn.addEventListener('click', () => {
     nameField.value = genName();
+    return false;
   });
   bioBtn.addEventListener('click', () => {
     bioField.value = genBio();
+    return false;
   });
 
-  const furImg = entryForm.querySelector('#furImg');
-  const skinImg = entryForm.querySelector('#skinImg');
-  const faceImg = entryForm.querySelector('#faceImg');
+  const furImg = infoForm.querySelector('#furImg');
+  const skinImg = infoForm.querySelector('#skinImg');
+  const faceImg = infoForm.querySelector('#faceImg');
 
-  const furOpts = entryForm.querySelector("#furField").querySelectorAll("input[type='radio']");
-  const skinOpts = entryForm.querySelector("#skinField").querySelectorAll("input[type='radio']");
-  const faceOpts = entryForm.querySelector("#faceField").querySelectorAll("input[type='radio']");
+  const furOpts = infoForm.querySelector("#furField").querySelectorAll("input[type='radio']");
+  const skinOpts = infoForm.querySelector("#skinField").querySelectorAll("input[type='radio']");
+  const faceOpts = infoForm.querySelector("#faceField").querySelectorAll("input[type='radio']");
 
   for (let radBtn of furOpts) {
     radBtn.addEventListener('click', () => {
