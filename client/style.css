@@ -202,7 +202,7 @@ input[type="radio"]:checked {
 }
 #skinField, #furField {
   width: 70px;
-  height: 280px;
+  height: 260px;
 
   display: flex;
   flex-direction: column;
@@ -256,8 +256,11 @@ input[type="radio"]:checked {
   width: 25px;
   height: 25px;
 
+
   border: none;
-  background-color: inherit;
+  
+  background:url('https://cdn-icons-png.flaticon.com/512/60/60879.png') no-repeat;
+  background-size: 25px 25px;
 }
 #randName:hover, #randBio:hover {
   cursor: pointer;
@@ -419,4 +422,13 @@ input[type="radio"]:checked {
   font-weight: normal;
 
   text-overflow: wrap;
+}
+
+/* -------------------------- */
+/* - - - - - FOOTER - - - - - */
+/* -------------------------- */
+
+footer a {
+  display: block;
+  text-align: center;
 }
