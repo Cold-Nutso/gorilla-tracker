@@ -3,7 +3,7 @@ const fs = require('fs'); // Pull in file system module
 // Load files into memory
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
 const css = fs.readFileSync(`${__dirname}/../client/style.css`);
-const clientJS = fs.readFileSync(`${__dirname}/../client/wasClient.js`);
+const clientJS = fs.readFileSync(`${__dirname}/../client/client.js`);
 const apeJS = fs.readFileSync(`${__dirname}/../client/apeFunctions.js`);
 
 const getIndex = (request, response) => {

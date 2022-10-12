@@ -15,6 +15,7 @@ const urlStruct = {
     '/getClientJS': htmlHandler.getClientJS,
     '/getApeJS': htmlHandler.getApeJS,
     '/getApes': jsonHandler.getApes,
+    '/getDicon': imageHandler.getDicon,
     '/getImage': imageHandler.getImage,
     notFound: jsonHandler.notFound,
   },
@@ -90,7 +91,6 @@ const onRequest = (request, response) => {
 
     // Send to getImage
     return urlStruct[request.method]['/getImage'](request, response, paramObj);
-
   } if (urlStruct[request.method][parsedUrl.pathname]) {
     return urlStruct[request.method][parsedUrl.pathname](request, response);
   }

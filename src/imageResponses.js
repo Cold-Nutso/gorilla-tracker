@@ -23,6 +23,7 @@ const faces = [
   fs.readFileSync(`${__dirname}/../images/face_wild.png`),
   fs.readFileSync(`${__dirname}/../images/face_cool.png`),
 ];
+const dicon = fs.readFileSync(`${__dirname}/../images/dicon.png`);
 
 // Respond with a png (for GET requests)
 const respondImage = (request, response, status, image) => {
@@ -146,7 +147,13 @@ const getImageMeta = (request, response, body) => {
   return returnThis;
 };
 
+// Get dicon png
+const getDicon = (request, response) => {
+  respondImage(request, response, 200, dicon);
+};
+
 module.exports = {
+  getDicon,
   getImage,
   getImageMeta,
 };

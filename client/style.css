@@ -211,6 +211,10 @@ input[type="radio"]:checked {
 
   /* background-color:rgba(0, 255, 0, .1); */
 }
+#skinField input[type="radio"]:hover,
+#furField input[type="radio"]:hover { 
+  cursor: pointer; 
+}
 
 #skin0 { background-color: #26221e; }
 #skin1 { background-color: #3f3a35; }
@@ -259,7 +263,7 @@ input[type="radio"]:checked {
 
   border: none;
   
-  background:url('https://cdn-icons-png.flaticon.com/512/60/60879.png') no-repeat;
+  background: url('/getDicon') no-repeat;
   background-size: 25px 25px;
 }
 #randName:hover, #randBio:hover {

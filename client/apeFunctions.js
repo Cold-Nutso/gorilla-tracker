@@ -6,8 +6,8 @@ const preCon = ['b', 'f', 'g', 'h', 'j', 'k', 'm', 'p', 'r', 't', 'w', 'y', 'z',
 const vowel = ['a', 'e', 'i', 'o', 'u'];
 const sufCon = ['h', 'l', 'm', 'n'];
 
-const bioA = ['Never ', 'A little ', 'A bit ', 'Partially ', 'Somewhat ', 'Kind of ', 'Sometimes ', 'Occasionally ', 'Frequently ', 'Always ', 'Permanently ', 'Eternally ', 'Tends to be ', 'Extremely ', 'Strangely ', 'Oddly ', 'Weirdly '];
-const bioB = ['friendly', 'hungry', 'angry', 'cheerful', 'curious', 'annoyed', 'chatty', 'stoic', 'intense', 'excited', 'jolly', 'goofy', 'weird', 'creative'];
+const bioA = ['Never ', 'A little ', 'A bit ', 'Partially ', 'Somewhat ', 'Kind of ', 'Sometimes ', 'Occasionally ', 'Frequently ', 'Always ', 'Permanently ', 'Eternally ', 'Tends to be ', 'Extremely ', 'Strangely ', 'Oddly ', 'Weirdly ', 'Just the right amount of '];
+const bioB = ['friendly', 'hungry', 'angry', 'cheerful', 'curious', 'annoyed', 'chatty', 'stoic', 'intense', 'excited', 'jolly', 'goofy', 'weird', 'creative', 'paranoid', 'strong', 'relaxed', 'political', 'confused', 'intelligent', 'focused'];
 
 // ---------------------------------
 // - - - - - APE FUNCTIONS - - - - -
